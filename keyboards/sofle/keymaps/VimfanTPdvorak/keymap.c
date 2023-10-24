@@ -245,9 +245,9 @@ enum anim_states {
     Idle,
     Prep,
     Tap
-}
+};
 
-uint8_t anime_state = Idle;
+uint8_t anim_state = Idle;
 uint32_t idle_timeout_timer = 0;
 uint32_t anim_timer = 0;
 uint8_t current_idle_frame = 0;
@@ -256,7 +256,7 @@ uint8_t current_tap_frame = 0;
 struct pair_int_int {
     uint8_t first;
     uint8_t second;
-}
+};
 
 struct pair_int_int pressed_keys[KEYS_SIZE];
 struct pair_int_int pressed_keys_prev[KEYS_SIZE];
@@ -724,17 +724,17 @@ static void draw_bongo(bool minimal) {
         oled_write(get_u8_str(get_current_wpm(), '0'), false);
 
         // calculate && print clock
-        oled_set_cursor(0, 2);
-        uint8_t  hour = last_minute / 60;
-        uint16_t minute = last_minute % 60;
-        bool is_pm = (hour / 12) > 0;
-        hour = hour % 12;
-        if (hour == 0) {
-            hour = 12;
-        }
-        static char time_str[8] = "";
-        sprintf(time_str, "%02d:%02d%s", hour, minute, is_pm ? "pm" : "am");
-        oled_write(time_str, false);
+        //oled_set_cursor(0, 2);
+        //uint8_t  hour = last_minute / 60;
+        //uint16_t minute = last_minute % 60;
+        //bool is_pm = (hour / 12) > 0;
+        //hour = hour % 12;
+        //if (hour == 0) {
+        //    hour = 12;
+        //}
+        //static char time_str[8] = "";
+        //sprintf(time_str, "%02d:%02d%s", hour, minute, is_pm ? "pm" : "am");
+        //oled_write(time_str, false);
     }
 }
 
@@ -744,7 +744,7 @@ bool oled_task_user(void) {
         print_status_narrow();
     } else {
         //render_logo();
-        draw_bongo(false)
+        draw_bongo(false);
     }
     return false;
 }
