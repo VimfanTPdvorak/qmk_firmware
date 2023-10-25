@@ -7,3 +7,4 @@ for more options.
 
 #define OLED_BRIGHTNESS 64
 #define SPLIT_WPM_ENABLE
+#define MASTER_RIGHT
