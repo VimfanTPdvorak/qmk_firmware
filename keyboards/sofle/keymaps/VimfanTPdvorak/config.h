@@ -7,7 +7,7 @@ for more options.
 
 #define OLED_BRIGHTNESS 64
 #define SPLIT_WPM_ENABLE
-#define MASTER_RIGHT
+#define MASTER_LEFT
 #undef RGBLED_NUM
 #define RGBLED_NUM 12
 #define RGBLIGHT_HUE_STEP 8

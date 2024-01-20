@@ -141,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * | QK_BOOT|      |QWERTY|COLEMAK|DVORAK|      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |      |      |MACWIN|      |      |      |-------.    ,-------|      | VOLDO| MUTE | VOLUP|      |      |
+ * |      |      |      |      |      |      |-------.    ,-------|      | VOLDO| MUTE | VOLUP|      |      |
  * |------+------+------+------+------+------|  MUTE |    |       |------+------+------+------+------+------|
  * |      |      |      |      |      |      |-------|    |-------|      | PREV | PLAY | NEXT |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
@@ -152,7 +152,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT(
   XXXXXXX , XXXXXXX,  XXXXXXX ,  XXXXXXX , XXXXXXX, XXXXXXX,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   QK_BOOT  , XXXXXXX,KC_QWERTY,KC_COLEMAKDH,KC_DVORAK,CG_TOGG,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  XXXXXXX , XXXXXXX,CG_TOGG, XXXXXXX,    XXXXXXX,  XXXXXXX,                     XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
+  XXXXXXX , XXXXXXX,XXXXXXX, XXXXXXX,    XXXXXXX,  XXXXXXX,                     XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
   XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX,  XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
                    _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______
   )
@@ -256,6 +256,13 @@ uint8_t pressed_keys_index = 0;
 
 bool key_down = 0;
 char wpm[42];
+bool oled_cleared = true;
+
+static const char PROGMEM qmk_logo[] = {
+    0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
+    0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4,
+    0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0
+};
 
 static const char PROGMEM idle[IDLE_FRAMES][ANIM_SIZE] = {
     {
@@ -672,90 +679,81 @@ void eval_anim_state(void) {
     }
 }
 
-static void draw_bongo(bool minimal) {
+static void draw_bongo_or_render_logo(bool minimal) {
     eval_anim_state();
 
     oled_set_cursor(0, 0);
 
-    switch (anim_state) {
-        case Idle:
-            if (minimal)
-                oled_write_raw_P(idle_minimal[abs((IDLE_FRAMES - 1) - current_idle_frame)], ANIM_SIZE);
-            else
-                oled_write_raw_P(idle[abs((IDLE_FRAMES - 1) - current_idle_frame)], ANIM_SIZE);
-            if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION)
-            {
-                current_idle_frame = (current_idle_frame + 1) % IDLE_FRAMES;
-                anim_timer = timer_read32();
-            }
-            break;
+    if (get_current_wpm() == 0) {
+        // The code inside this if condition is a workaround for clearing
+        // the bongo animation character. It is a way to prevent the OLED from
+        // continuously printing, which I discovered was causing the display to
+        // never automatically turn off after being idle for some time. It makes sense
+        // that it works this way, as it seems to be an internal code that is not
+        // found within this script that controls the OLED screen turning off
+        // after a certain amount of idle time. Printing something exactly the
+        // same on the OLED translates as not being idle.
+        //
+        // TODO: Modify the qmk_logo so that it will print a blank space on its
+        // right side, allowing the line printed by the bongo character to be
+        // deleted. This will eliminate the need for the workaround code.
+        // Alternatively, modify the bongo character so that the diagonal
+        // printed line is shorter.
+        if (!oled_cleared) {
+            for (int i = 1; i <= 5; i++) oled_write_ln_P(PSTR(""), false);
+            oled_set_cursor(0, 0);
+            oled_cleared = true;
+        }
+        oled_write_P(qmk_logo, false);
+    } else {
+        oled_cleared = false;
+        switch (anim_state) {
+            case Idle:
+                if (minimal)
+                    oled_write_raw_P(idle_minimal[abs((IDLE_FRAMES - 1) - current_idle_frame)], ANIM_SIZE);
+                else
+                    oled_write_raw_P(idle[abs((IDLE_FRAMES - 1) - current_idle_frame)], ANIM_SIZE);
 
-        case Prep:
-            if (minimal)
-                oled_write_raw_P(prep_minimal[0], ANIM_SIZE);
-            else
-                oled_write_raw_P(prep[0], ANIM_SIZE);
-            break;
+                if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION)
+                {
+                    current_idle_frame = (current_idle_frame + 1) % IDLE_FRAMES;
+                    anim_timer = timer_read32();
+                }
+                break;
 
-        case Tap:
-            if (minimal)
-                oled_write_raw_P(tap_minimal[abs((TAP_FRAMES - 1) - current_tap_frame)], ANIM_SIZE);
-            else
-                oled_write_raw_P(tap[abs((TAP_FRAMES - 1) - current_tap_frame)], ANIM_SIZE);
-            current_tap_frame = (current_tap_frame + 1) % TAP_FRAMES;
-            break;
+            case Prep:
+                if (minimal)
+                    oled_write_raw_P(prep_minimal[0], ANIM_SIZE);
+                else
+                    oled_write_raw_P(prep[0], ANIM_SIZE);
+                break;
 
-        default:
-            break;
-    }
+            case Tap:
+                if (minimal)
+                    oled_write_raw_P(tap_minimal[abs((TAP_FRAMES - 1) - current_tap_frame)], ANIM_SIZE);
+                else
+                    oled_write_raw_P(tap[abs((TAP_FRAMES - 1) - current_tap_frame)], ANIM_SIZE);
+                current_tap_frame = (current_tap_frame + 1) % TAP_FRAMES;
+                break;
 
-    if (!minimal) {
-        // print wpm
-        oled_set_cursor(0, 0);
-        oled_write_P(PSTR("WPM: "), false);
-        oled_write(get_u8_str(get_current_wpm(), '0'), false);
+            default:
+                break;
+        }
 
-        // calculate && print clock
-        //oled_set_cursor(0, 2);
-        //uint8_t  hour = last_minute / 60;
-        //uint16_t minute = last_minute % 60;
-        //bool is_pm = (hour / 12) > 0;
-        //hour = hour % 12;
-        //if (hour == 0) {
-        //    hour = 12;
-        //}
-        //static char time_str[8] = "";
-        //sprintf(time_str, "%02d:%02d%s", hour, minute, is_pm ? "pm" : "am");
-        //oled_write(time_str, false);
-    }
-}
-
-static void render_logo(void) {
-    static const char PROGMEM qmk_logo[] = {
-        0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
-        0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4,
-        0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0
-    };
-
-    switch (get_highest_layer(default_layer_state)) {
-        case _DVORAK:
-            oled_write_P(qmk_logo, false);
-            break;
-        case _COLEMAKDH:
-            draw_bongo(false);
-            break;
-        default:
-            oled_write_P(qmk_logo, false);
-            break;
+        if (!minimal) {
+            // print wpm
+            oled_set_cursor(0, 0);
+            oled_write_P(PSTR("WPM: "), false);
+            oled_write(get_u8_str(get_current_wpm(), '0'), false);
+        }
     }
 }
-
 
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
         print_status_narrow();
     } else {
-        render_logo();
+        draw_bongo_or_render_logo(false);
     }
     return false;
 }
