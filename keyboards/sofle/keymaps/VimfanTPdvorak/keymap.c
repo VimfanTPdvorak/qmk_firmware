@@ -141,9 +141,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |-------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |QK_BOOT|      |QWERTY|COLEMAK|PDVRK|      |                    |      |MSW_UP|MS_UP |MSW_DW|      |      |
  * |-------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |       | VOLDO| MUTE | VOLUP|      |      |-------.    ,-------|      |MS_LF |MS_DW |MS_RG |      |      |
+ * |       |      | VOLDO| MUTE | VOLUP|      |-------.    ,-------|      |MS_LF |MS_DW |MS_RG |      |      |
  * |-------+------+------+------+------+------|  MUTE |    |       |------+------+------+------+------+------|
- * |       | PREV | PLAY | NEXT |      |      |-------|    |-------|      |MS_B1 |MS_B3 |MS_B2 |      |      |
+ * |       |      | PREV | PLAY | NEXT |      |-------|    |-------|      |MS_B1 |MS_B3 |MS_B2 |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *            | LGUI | LAlt | LCTR |LOWER | /Enter  /       \Space \  |RAISE | RCTR | RAlt | RGUI |
  *            |      |      |      |      |/       /         \      \ |      |      |      |      |
@@ -152,8 +152,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT(
    XXXXXXX, XXXXXXX,   XXXXXXX,      XXXXXXX,   XXXXXXX, XXXXXXX,                     XXXXXXX,     XXXXXXX,    XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX,
    QK_BOOT, XXXXXXX, KC_QWERTY, KC_COLEMAKDH, KC_DVORAK, XXXXXXX,                     XXXXXXX, KC_MS_WH_UP,   KC_MS_UP, KC_MS_WH_DOWN, XXXXXXX, XXXXXXX,
-   XXXXXXX, KC_VOLD,   KC_MUTE,      KC_VOLU,   XXXXXXX, XXXXXXX,                     XXXXXXX,  KC_MS_LEFT, KC_MS_DOWN,   KC_MS_RIGHT, XXXXXXX, XXXXXXX,
-   XXXXXXX, KC_MPRV,   KC_MPLY,      KC_MNXT,   XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,  KC_MS_BTN1,  KC_MS_BTN3,   KC_MS_BTN2, XXXXXXX, XXXXXXX,
+   XXXXXXX, XXXXXXX,   KC_VOLD,      KC_MUTE,   KC_VOLU, XXXXXXX,                     XXXXXXX,  KC_MS_LEFT, KC_MS_DOWN,   KC_MS_RIGHT, XXXXXXX, XXXXXXX,
+   XXXXXXX, XXXXXXX,   KC_MPRV,      KC_MPLY,   KC_MNXT, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,  KC_MS_BTN1,  KC_MS_BTN3,   KC_MS_BTN2, XXXXXXX, XXXXXXX,
                        _______,      _______,   _______, _______, _______,   _______, _______,     _______,     _______,      _______
   )
 };
