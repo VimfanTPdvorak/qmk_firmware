@@ -150,9 +150,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *            `----------------------------------'           '------''---------------------------'
  */
   [_ADJUST] = LAYOUT(
-   XXXXXXX, XXXXXXX,   XXXXXXX,      XXXXXXX,   XXXXXXX, XXXXXXX,                     XXXXXXX,     XXXXXXX,    XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX,
+   XXXXXXX, XXXXXXX,   KC_VOLD,      KC_MUTE,   KC_VOLU, XXXXXXX,                     XXXXXXX,     XXXXXXX,    XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX,
    QK_BOOT, XXXXXXX, KC_QWERTY, KC_COLEMAKDH, KC_DVORAK, XXXXXXX,                     XXXXXXX, KC_MS_WH_UP,   KC_MS_UP, KC_MS_WH_DOWN, XXXXXXX, XXXXXXX,
-   XXXXXXX, XXXXXXX,   KC_VOLD,      KC_MUTE,   KC_VOLU, XXXXXXX,                     XXXXXXX,  KC_MS_LEFT, KC_MS_DOWN,   KC_MS_RIGHT, XXXXXXX, XXXXXXX,
+   XXXXXXX, XXXXXXX,   KC_ACL0,      KC_ACL1,   KC_ACL2, XXXXXXX,                     XXXXXXX,  KC_MS_LEFT, KC_MS_DOWN,   KC_MS_RIGHT, XXXXXXX, XXXXXXX,
    XXXXXXX, XXXXXXX,   KC_MPRV,      KC_MPLY,   KC_MNXT, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,  KC_MS_BTN1,  KC_MS_BTN3,   KC_MS_BTN2, XXXXXXX, XXXXXXX,
                        _______,      _______,   _______, _______, _______,   _______, _______,     _______,     _______,      _______
   )

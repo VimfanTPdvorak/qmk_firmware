@@ -17,3 +17,6 @@ for more options.
 #define NO_ACTION_ONESHOT
 #define NO_ACTION_TAPPING
 #define LAYER_STATE_3BIT
+
+/* Enable mouse key's combined mode */
+#define MK_COMBINED
