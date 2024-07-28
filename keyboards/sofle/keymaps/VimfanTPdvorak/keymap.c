@@ -101,10 +101,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_MOUSEKEY] = LAYOUT(
   XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX,                    XXXXXXX,     XXXXXXX,     XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX,
-  _______, XXXXXXX,    _______,    _______,    _______, XXXXXXX,                    XXXXXXX, KC_MS_WH_UP,    KC_MS_UP, KC_MS_WH_DOWN, XXXXXXX, XXXXXXX,
-  XXXXXXX, XXXXXXX, KC_MS_BTN2, KC_MS_BTN3, KC_MS_BTN1, XXXXXXX,                    XXXXXXX,  KC_MS_LEFT,  KC_MS_DOWN,   KC_MS_RIGHT, XXXXXXX, XXXXXXX,
-  _______, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,     XXXXXXX,     XXXXXXX,       XXXXXXX, XXXXXXX, _______,
-                       _______,    _______,    KC_ACL1, _______, KC_ACL0,  KC_ACL2, _______,     _______,     _______,       _______
+  _______, KC_ACL0,    _______,    _______,    _______, XXXXXXX,                    XXXXXXX, KC_MS_WH_UP,    KC_MS_UP, KC_MS_WH_DOWN, KC_ACL0, XXXXXXX,
+  XXXXXXX, KC_ACL1, KC_MS_BTN2, KC_MS_BTN3, KC_MS_BTN1, XXXXXXX,                    XXXXXXX,  KC_MS_LEFT,  KC_MS_DOWN,   KC_MS_RIGHT, KC_ACL1, XXXXXXX,
+  _______, KC_ACL2,    XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,     XXXXXXX,     XXXXXXX,       XXXXXXX, KC_ACL2, _______,
+                       KC_LGUI,    KC_LALT, KC_LCTL, MO(_LOWER), KC_ENT,   KC_SPC, MO(_RAISE), KC_RCTL,       KC_RALT,     KC_RGUI
 ),
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -205,7 +205,7 @@ static void print_status_narrow(void) {
     oled_write_ln_P(PSTR("LAYER"), false);
     switch (get_highest_layer(default_layer_state)) {
         case _MOUSEKEY:
-            oled_write_P(PSTR("4rd\n"), false);
+            oled_write_P(PSTR("4th\n"), false);
             break;
         case _DVORAK:
             oled_write_P(PSTR("3rd\n"), false);
