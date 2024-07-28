@@ -9,6 +9,7 @@ enum sofle_layers {
     _LOWER,
     _RAISE,
     _ADJUST,
+    _MOUSEKEY
 };
 
 enum custom_keycodes {
@@ -19,7 +20,8 @@ enum custom_keycodes {
     KC_NXTWD,
     KC_LSTRT,
     KC_LEND,
-    KC_DLINE
+    KC_DLINE,
+    KC_MOUSEKEY
 };
 
 
@@ -93,6 +95,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_LSFT, KC_QUOT, KC_Q,    KC_J,    KC_K,    KC_X, KC_MUTE,      XXXXXXX,KC_B,    KC_M, KC_W,  KC_V, KC_Z, KC_RSFT,
                  KC_LGUI,KC_LALT,KC_LCTL,MO(_LOWER), KC_ENT,        KC_SPC,  MO(_RAISE), KC_RCTL, KC_RALT, KC_RGUI
 ),
+/*
+ * MOUSEKEY
+ */
+
+[_MOUSEKEY] = LAYOUT(
+  XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX,                    XXXXXXX,     XXXXXXX,     XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX,
+  _______, XXXXXXX,    _______,    _______,    _______, XXXXXXX,                    XXXXXXX, KC_MS_WH_UP,    KC_MS_UP, KC_MS_WH_DOWN, XXXXXXX, XXXXXXX,
+  XXXXXXX, XXXXXXX, KC_MS_BTN2, KC_MS_BTN3, KC_MS_BTN1, XXXXXXX,                    XXXXXXX,  KC_MS_LEFT,  KC_MS_DOWN,   KC_MS_RIGHT, XXXXXXX, XXXXXXX,
+  _______, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,     XXXXXXX,     XXXXXXX,       XXXXXXX, XXXXXXX, _______,
+                       _______,    _______,    KC_ACL1, _______, KC_ACL0,  KC_ACL2, _______,     _______,     _______,       _______
+),
 /* LOWER
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |  F1  |  F2  |  F3  |  F4  |  F5  |                    |  F6  |  F7  |  F8  |  F9  | F10  | F11  |
@@ -139,22 +152,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |       |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |-------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |QK_BOOT|      |QWERTY|COLEMAK|PDVRK|      |                    |      |MSW_UP|MS_UP |MSW_DW|      |      |
+ * |QK_BOOT|      |QWERTY|COLEMAK|PDVRK|      |                    |      |      |      |      |      |      |
  * |-------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |       |      | VOLDO| MUTE | VOLUP|      |-------.    ,-------|      |MS_LF |MS_DW |MS_RG |      |      |
+ * |       |      |      |      |      |      |-------.    ,-------|      | VOLDO| MUTE | VOLUP|      |      |
  * |-------+------+------+------+------+------|  MUTE |    |       |------+------+------+------+------+------|
- * |       |      | PREV | PLAY | NEXT |      |-------|    |-------|      |MS_B1 |MS_B3 |MS_B2 |      |      |
+ * |       |      |      |      |      |      |-------|    |-------|      | PREV | PLAY | NEXT |      |      |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *            | LGUI | LAlt | LCTR |LOWER | /Enter  /       \Space \  |RAISE | RCTR | RAlt | RGUI |
  *            |      |      |      |      |/       /         \      \ |      |      |      |      |
  *            `----------------------------------'           '------''---------------------------'
  */
   [_ADJUST] = LAYOUT(
-   XXXXXXX, XXXXXXX,   KC_VOLD,      KC_MUTE,   KC_VOLU, XXXXXXX,                     XXXXXXX,     XXXXXXX,    XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX,
-   QK_BOOT, XXXXXXX, KC_QWERTY, KC_COLEMAKDH, KC_DVORAK, XXXXXXX,                     XXXXXXX, KC_MS_WH_UP,   KC_MS_UP, KC_MS_WH_DOWN, XXXXXXX, XXXXXXX,
-   XXXXXXX, XXXXXXX,   KC_ACL0,      KC_ACL1,   KC_ACL2, XXXXXXX,                     XXXXXXX,  KC_MS_LEFT, KC_MS_DOWN,   KC_MS_RIGHT, XXXXXXX, XXXXXXX,
-   XXXXXXX, XXXXXXX,   KC_MPRV,      KC_MPLY,   KC_MNXT, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,  KC_MS_BTN1,  KC_MS_BTN3,   KC_MS_BTN2, XXXXXXX, XXXXXXX,
-                       _______,      _______,   _______, _______, _______,   _______, _______,     _______,     _______,      _______
+  XXXXXXX , XXXXXXX,  XXXXXXX ,  XXXXXXX , XXXXXXX, XXXXXXX,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  QK_BOOT  , XXXXXXX,KC_QWERTY,KC_COLEMAKDH,KC_DVORAK,XXXXXXX,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  XXXXXXX , XXXXXXX, XXXXXXX, KC_MOUSEKEY,  XXXXXXX,  XXXXXXX,                     XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
+  XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX,  XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
+                   _______, _______, _______, _______, _______,     _______, _______, _______, _______, _______
   )
 };
 
@@ -181,6 +194,9 @@ static void print_status_narrow(void) {
         case _DVORAK:
             oled_write_ln_P(PSTR("Dvrk"), false);
             break;
+        case _MOUSEKEY:
+            oled_write_ln_P(PSTR("Mouse"), false);
+            break;
         default:
             oled_write_P(PSTR("Undef"), false);
     }
@@ -188,6 +204,9 @@ static void print_status_narrow(void) {
     // Print current layer
     oled_write_ln_P(PSTR("LAYER"), false);
     switch (get_highest_layer(default_layer_state)) {
+        case _MOUSEKEY:
+            oled_write_P(PSTR("4rd\n"), false);
+            break;
         case _DVORAK:
             oled_write_P(PSTR("3rd\n"), false);
             break;
@@ -779,6 +798,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_DVORAK:
             if (record->event.pressed) {
                 set_single_persistent_default_layer(_DVORAK);
+            }
+            return false;
+        case KC_MOUSEKEY:
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_MOUSEKEY);
             }
             return false;
         case KC_PRVWD:

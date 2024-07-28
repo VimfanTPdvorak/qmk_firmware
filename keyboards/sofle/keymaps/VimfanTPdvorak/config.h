@@ -16,7 +16,7 @@ for more options.
 #undef LOCKING_RESYNC_ENABLE
 #define NO_ACTION_ONESHOT
 #define NO_ACTION_TAPPING
-#define LAYER_STATE_3BIT
+#define LAYER_STATE_4BIT
 
 /* Enable mouse key's combined mode */
 #define MK_COMBINED
