@@ -20,3 +20,9 @@ for more options.
 
 /* Enable mouse key's combined mode */
 #define MK_COMBINED
+
+/* Use constant speed mode */
+#define MK_3_SPEED
+
+/* Enable momentary speed selection */
+#define MK_MOMENTARY_ACCEL
